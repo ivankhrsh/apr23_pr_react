@@ -82,10 +82,18 @@ export const App = () => {
     setSearch(value);
   };
 
+  const filterBySearch = products => products.filter((product) => {
+    const formattedSearch = search.toLowerCase().trim();
+
+    const isInTitle = product.name.toLowerCase().includes(formattedSearch);
+
+    return isInTitle;
+  });
+
   const isProductsEmpty = preparedProducts.length === 0;
   const isSearchEmpty = search.length === 0;
-  const filteredGoods = filterProductsByCategory(selectedCategories);
-  const searchedGoods = filteredGoods;
+  const filteredProducts = filterProductsByCategory(selectedCategories);
+  const searchedProducts = filterBySearch(filteredProducts);
 
   return (
     <div className="section">
@@ -252,7 +260,7 @@ export const App = () => {
             </thead>
 
             <tbody>
-              {searchedGoods.map(product => (
+              {searchedProducts.map(product => (
                 <tr data-cy="Product" key={product.id}>
                   <td className="has-text-weight-bold" data-cy="ProductId">
                     {product.id}
